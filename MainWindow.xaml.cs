@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using artistic_image_effect_dotnet;
+using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -13,6 +14,9 @@ namespace Dotnet8ThreeColumnViewer
         public MainWindow()
         {
             InitializeComponent();
+            var img = ImageEffect.Render(1000, 1500, 10, 0.9);
+            SetImageSourceForColumn(1, img);
+
         }
 
         private void OpenMenu_Click(object sender, RoutedEventArgs e)
