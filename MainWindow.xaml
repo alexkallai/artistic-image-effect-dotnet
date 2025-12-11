@@ -50,12 +50,12 @@
 
                             <StackPanel>
                                 <TextBlock Text="Color 1" Margin="0,0,0,4"/>
-                                <xctk:ColorPicker x:Name="GlobalColor1" Width="140"/>
+                                <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Coral"/>
                             </StackPanel>
 
                             <StackPanel>
                                 <TextBlock Text="Color 2" Margin="0,0,0,4"/>
-                                <xctk:ColorPicker x:Name="GlobalColor2" Width="140"/>
+                                <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkOrchid"/>
                             </StackPanel>
 
                             <StackPanel>

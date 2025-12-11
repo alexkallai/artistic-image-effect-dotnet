@@ -1,4 +1,5 @@
-﻿using System.Windows.Media.Imaging;
+﻿using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace artistic_image_effect_dotnet
 {
@@ -46,14 +47,22 @@ namespace artistic_image_effect_dotnet
             }
         }
 
+        public static uint ConvertColorToUInt(Color color)
+        {
+            return (uint)((color.A << 24) | (color.R << 16) | (color.G << 8) | color.B);
+        }
 
-        public static WriteableBitmap CreateWriteableBitmapFromArray(bool[,] canvas)
+        public static WriteableBitmap CreateWriteableBitmapFromArray(
+            bool[,] canvas,
+            uint drawColor = 0xFFFFFFFF,  // Default: White
+            uint backgroundColor = 0xFF000000) // Default: Black
         {
             int height = canvas.GetLength(0);
             int width = canvas.GetLength(1);
 
             // Create a WriteableBitmap with the same dimensions as the array
-            WriteableBitmap bitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
+            WriteableBitmap bitmap = new WriteableBitmap(width, height, 96, 96,
+                System.Windows.Media.PixelFormats.Bgra32, null);
 
             // Lock the bitmap for writing
             bitmap.Lock();
@@ -69,16 +78,9 @@ namespace artistic_image_effect_dotnet
                     for (int x = 0; x < width; x++)
                     {
                         // Set pixel colour based on the array value
-                        if (canvas[y, x])
-                        {
-                            // White for true
-                            pixels[y * width + x] = unchecked((int)0xFFFFFFFF); // ARGB: White
-                        }
-                        else
-                        {
-                            // Black for false
-                            pixels[y * width + x] = unchecked((int)0xFF000000); // ARGB: Black
-                        }
+                        pixels[y * width + x] = canvas[y, x] ?
+                            unchecked((int)drawColor) :
+                            unchecked((int)backgroundColor);
                     }
                 }
             }

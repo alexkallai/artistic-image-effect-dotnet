@@ -72,7 +72,7 @@ namespace Dotnet8ThreeColumnViewer
         {
             Dictionary<string, Action> tabPairing = new Dictionary<string, Action>()
             {
-                { "Concentric circles", CanvasPipeline},
+                { "Concentric circles", ConcentricCirclesPipeline},
             };
             var selected = GlobalControlTabs.SelectedItem as TabItem;
             var selectedString = selected?.Header.ToString();
@@ -87,11 +87,12 @@ namespace Dotnet8ThreeColumnViewer
             }
         }
 
-        private void CanvasPipeline()
+        // At this point we assume the initial image is already loaded
+        private void ConcentricCirclesPipeline()
         {
             canvas = new bool[loadedImageHeight, loadedImageWidth];
 
-            // Do the pipeline based on the selected option
+            // Do the drawing stuff on the canvas
 
             for (int i = 0; i < 120; i++)
             {
@@ -100,13 +101,21 @@ namespace Dotnet8ThreeColumnViewer
             var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
             var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap);
 
+            // Set the middle image
             var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
             _columnBitmaps[1] = bitmapCanvas;
             SetImageSourceForColumn(1, bitmapCanvas);
 
-            var drawnBitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(drawnCanvas);
-            _columnBitmaps[2] = drawnBitmapCanvas;
-            SetImageSourceForColumn(2, drawnBitmapCanvas);
+            if (GlobalColor1.SelectedColor != null)
+            {
+                // Set the right output image
+                var drawnBitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(drawnCanvas,
+                    ImageEffect.ConvertColorToUInt(GlobalColor1.SelectedColor.Value),
+                    ImageEffect.ConvertColorToUInt(GlobalColor2.SelectedColor.Value));
+                _columnBitmaps[2] = drawnBitmapCanvas;
+                SetImageSourceForColumn(2, drawnBitmapCanvas);
+            }
+
         }
 
         private void SetImageSourceForColumn(int columnIndex, BitmapSource? bmp)
