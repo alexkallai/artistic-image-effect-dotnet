@@ -75,11 +75,11 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Foreground color: " Margin="0,0,0,4"/>
-                                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Coral"/>
+                                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Black"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Background color: " Margin="0,0,0,4"/>
-                                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkOrchid"/>
+                                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkSeaGreen"/>
                             </StackPanel>
                                 
                                 
