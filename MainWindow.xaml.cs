@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace Dotnet8ThreeColumnViewer
@@ -59,7 +60,7 @@ namespace Dotnet8ThreeColumnViewer
                 _columnBitmaps[columnIndex] = bi;
                 SetImageSourceForColumn(columnIndex, bi);
 
-                CanvasPipeline();
+                CallSelectedPipeline();
             }
             catch (Exception ex)
             {
@@ -67,13 +68,34 @@ namespace Dotnet8ThreeColumnViewer
             }
         }
 
+        private void CallSelectedPipeline()
+        {
+            Dictionary<string, Action> tabPairing = new Dictionary<string, Action>()
+            {
+                { "Concentric circles", CanvasPipeline},
+            };
+            var selected = GlobalControlTabs.SelectedItem as TabItem;
+            var selectedString = selected?.Header.ToString();
+            System.Diagnostics.Debug.WriteLine($"Selected tab is: {selectedString}");
+            if (selected != null && selectedString != null && tabPairing.ContainsKey(selectedString))
+            {
+                tabPairing[selectedString]();
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("Could not call the pipeline!");
+            }
+        }
+
         private void CanvasPipeline()
         {
             canvas = new bool[loadedImageHeight, loadedImageWidth];
 
+            // Do the pipeline based on the selected option
+
             for (int i = 0; i < 120; i++)
             {
-                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 45, 2, false);
+                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 10, 2, false);
             }
             var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
             var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap);
@@ -172,5 +194,14 @@ namespace Dotnet8ThreeColumnViewer
             if (columnIndex < 0 || columnIndex > 2) throw new ArgumentOutOfRangeException(nameof(columnIndex));
             return _columnBitmaps[columnIndex];
         }
+        private void GlobalControlTabs_SelectedIntecChanged(Object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(GlobalControlTabs.SelectedItem);
+            if (_columnBitmaps[0] != null)
+            {
+                CallSelectedPipeline();
+            }
+        }
+
     }
 }

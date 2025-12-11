@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
             <!-- menu -->
             <RowDefinition Height="Auto"/>
-            <!-- global controls -->
+            <!-- global controls (tabbed) -->
             <RowDefinition Height="*"/>
             <!-- image columns -->
         </Grid.RowDefinitions>
@@ -24,47 +24,127 @@
             </MenuItem>
         </Menu>
 
-        <!-- Global controls -->
-        <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10">
-            <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
+        <!-- Global Controls (Tabbed) -->
+        <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10" Height="200">
+            <TabControl x:Name="GlobalControlTabs" Margin="0" SelectionChanged="GlobalControlTabs_SelectedIntecChanged">
 
-                <!-- Dropdown -->
-                <StackPanel>
-                    <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
-                    <ComboBox x:Name="GlobalCombo" Width="180" SelectedIndex="0">
-                        <ComboBoxItem>Option A</ComboBoxItem>
-                        <ComboBoxItem>Option B</ComboBoxItem>
-                        <ComboBoxItem>Option C</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
+                <!-- TAB 1: original layout (horizontal) -->
+                <TabItem Header="Concentric circles">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel Orientation="Horizontal" >
 
-                <!-- Slider -->
-                <StackPanel>
-                    <TextBlock Text="Slider (0–100)" Margin="0,0,0,4"/>
-                    <Slider x:Name="GlobalSlider" Width="180" Minimum="0" Maximum="100" Value="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
-                </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
+                                <ComboBox x:Name="GlobalCombo" Width="180" SelectedIndex="0">
+                                    <ComboBoxItem>Option A</ComboBoxItem>
+                                    <ComboBoxItem>Option B</ComboBoxItem>
+                                    <ComboBoxItem>Option C</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
 
-                <!-- Color 1 -->
-                <StackPanel>
-                    <TextBlock Text="Color 1" Margin="0,0,0,4"/>
-                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140"/>
-                </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Slider (0–100)" Margin="0,0,0,4"/>
+                                <Slider x:Name="GlobalSlider" Width="180" Minimum="0" Maximum="100"
+                                        Value="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            </StackPanel>
 
-                <!-- Color 2 -->
-                <StackPanel>
-                    <TextBlock Text="Color 2" Margin="0,0,0,4"/>
-                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140"/>
-                </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Color 1" Margin="0,0,0,4"/>
+                                <xctk:ColorPicker x:Name="GlobalColor1" Width="140"/>
+                            </StackPanel>
 
-                <!-- Integer input -->
-                <StackPanel>
-                    <TextBlock Text="Integer input" Margin="0,0,0,4"/>
-                    <TextBox x:Name="GlobalInteger" Width="80"
-                             
-                             MaxLength="6"/>
-                </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Color 2" Margin="0,0,0,4"/>
+                                <xctk:ColorPicker x:Name="GlobalColor2" Width="140"/>
+                            </StackPanel>
 
-            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Text="Integer input" Margin="0,0,0,4"/>
+                                <TextBox x:Name="GlobalInteger" Width="80" MaxLength="6"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- TAB 2: vertical, compact layout -->
+                <TabItem Header="Preset B">
+                    <StackPanel Orientation="Vertical" >
+
+                        <StackPanel>
+                            <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
+                            <ComboBox Width="200">
+                                <ComboBoxItem>Choice 1</ComboBoxItem>
+                                <ComboBoxItem>Choice 2</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="Intensity" Margin="0,0,0,4"/>
+                            <Slider Width="200" Minimum="0" Maximum="100"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" >
+                            <StackPanel>
+                                <TextBlock Text="Color A" Margin="0,0,0,4"/>
+                                <xctk:ColorPicker Width="120"/>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <TextBlock Text="Color B" Margin="0,0,0,4"/>
+                                <xctk:ColorPicker Width="120"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </TabItem>
+
+                <!-- TAB 3: grid layout -->
+                <TabItem Header="Preset C">
+                    <Grid Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                            <TextBlock Text="Dropdown" Margin="0,0,0,4"/>
+                            <ComboBox Width="180">
+                                <ComboBoxItem>One</ComboBoxItem>
+                                <ComboBoxItem>Two</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="Slider" Margin="0,0,0,4"/>
+                            <Slider Width="180" Minimum="0" Maximum="100"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Grid.Row="0">
+                            <TextBlock Text="Integer" Margin="0,0,0,4"/>
+                            <TextBox Width="100"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1">
+                            <TextBlock Text="Color 1" Margin="0,0,0,4"/>
+                            <xctk:ColorPicker Width="160"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="1">
+                            <TextBlock Text="Color 2" Margin="0,0,0,4"/>
+                            <xctk:ColorPicker Width="160"/>
+                        </StackPanel>
+
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
         </Border>
 
         <!-- Columns -->
@@ -87,8 +167,10 @@
                         <Image x:Name="Image0" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="0" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click"
+                                Tag="0" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -105,8 +187,10 @@
                         <Image x:Name="Image1" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="1" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click"
+                                Tag="1" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -123,8 +207,10 @@
                         <Image x:Name="Image2" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="2" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click"
+                                Tag="2" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
