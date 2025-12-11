@@ -70,9 +70,14 @@ namespace Dotnet8ThreeColumnViewer
         {
             canvas = new bool[loadedImageHeight, loadedImageWidth];
 
-            ImageEffect.DrawCircle(ref canvas, 10, 10, 5, 1);
+            for (int i = 0; i < 60; i++)
+            {
+                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 25, 2);
+            }
 
-            SetImageSourceForColumn(1, ImageEffect.CreateWriteableBitmapFromArray(canvas));
+            var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
+            _columnBitmaps[1] = bitmapCanvas;
+            SetImageSourceForColumn(1, bitmapCanvas);
         }
 
         private void SetImageSourceForColumn(int columnIndex, BitmapSource? bmp)
