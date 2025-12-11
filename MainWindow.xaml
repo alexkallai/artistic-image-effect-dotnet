@@ -64,6 +64,10 @@
                                 <TextBlock Text="Concentric circles size: " />
                                 <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric average distance: " />
+                                    <xctk:SingleUpDown Name="ConcIntBrightnessAverageDistance" Width="100" Value="20"/>
+                            </StackPanel>
                             </StackPanel>
                             
                             <StackPanel Orientation="Vertical" >

@@ -92,7 +92,7 @@ namespace artistic_image_effect_dotnet
             return bitmap;
         }
 
-        public static bool[,] DrawFilledCirclesWidthSizes(bool[,] baseCanvas, WriteableBitmap imageBitmap, int size)
+        public static bool[,] DrawFilledCirclesWidthSizes(bool[,] baseCanvas, WriteableBitmap imageBitmap, int circleMaxSize, int averageDistance)
         {
             int height = baseCanvas.GetLength(0);
             int width = baseCanvas.GetLength(1);
@@ -103,7 +103,7 @@ namespace artistic_image_effect_dotnet
                 {
                     if (baseCanvas[y, x] == true)
                     {
-                        int radius = Convert.ToInt32(5 * GetAverageBrightness(ref imageBitmap, x, y, size));
+                        int radius = Convert.ToInt32(circleMaxSize * GetAverageBrightness(ref imageBitmap, x, y, averageDistance));
                         DrawCircle(ref drawCanvas, x, y, radius, 1, true);
                     }
                 }

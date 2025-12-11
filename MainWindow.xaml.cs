@@ -104,7 +104,7 @@ namespace Dotnet8ThreeColumnViewer
                     false);
             }
             var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
-            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap, Convert.ToInt32(ConcIntCircleSize.Value));
+            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap, Convert.ToInt32(ConcIntCircleSize.Value), Convert.ToInt32(ConcIntBrightnessAverageDistance.Value));
 
 
             // Set the images
