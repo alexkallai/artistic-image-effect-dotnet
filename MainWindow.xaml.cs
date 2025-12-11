@@ -13,6 +13,7 @@ namespace Dotnet8ThreeColumnViewer
         private bool[,] canvas;
         private int loadedImageWidth;
         private int loadedImageHeight;
+        WriteableBitmap precalculatedBitmap;
 
         public MainWindow()
         {
@@ -70,14 +71,20 @@ namespace Dotnet8ThreeColumnViewer
         {
             canvas = new bool[loadedImageHeight, loadedImageWidth];
 
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 120; i++)
             {
-                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 25, 2);
+                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 45, 2, false);
             }
+            var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
+            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap);
 
             var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
             _columnBitmaps[1] = bitmapCanvas;
             SetImageSourceForColumn(1, bitmapCanvas);
+
+            var drawnBitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(drawnCanvas);
+            _columnBitmaps[2] = drawnBitmapCanvas;
+            SetImageSourceForColumn(2, drawnBitmapCanvas);
         }
 
         private void SetImageSourceForColumn(int columnIndex, BitmapSource? bmp)

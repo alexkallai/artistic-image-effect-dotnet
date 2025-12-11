@@ -4,33 +4,48 @@ namespace artistic_image_effect_dotnet
 {
     public static class ImageEffect
     {
-        public static void DrawCircle(ref bool[,] canvas, int centerX, int centerY, int radius, int circleWidth)
+        public static void DrawCircle(
+            ref bool[,] canvas,
+            int centerX,
+            int centerY,
+            int radius,
+            int circleWidth,
+            bool filled)
         {
             int height = canvas.GetLength(0);
             int width = canvas.GetLength(1);
 
-            // Define the bounds for iteration, limited to the canvas dimensions
             int minX = Math.Max(0, centerX - radius - circleWidth);
             int maxX = Math.Min(width - 1, centerX + radius + circleWidth);
             int minY = Math.Max(0, centerY - radius - circleWidth);
             int maxY = Math.Min(height - 1, centerY + radius + circleWidth);
 
-            // Iterate through the limited bounds
             for (int y = minY; y <= maxY; y++)
             {
                 for (int x = minX; x <= maxX; x++)
                 {
-                    // Calculate the distance from the current point to the circle's center
-                    double distance = Math.Sqrt(Math.Pow(x - centerX, 2) + Math.Pow(y - centerY, 2));
+                    double distance = Math.Sqrt((x - centerX) * (x - centerX) +
+                                                (y - centerY) * (y - centerY));
 
-                    // Check if the point is within the circle's width
-                    if (distance >= radius - circleWidth && distance <= radius + circleWidth)
+                    if (filled)
                     {
-                        canvas[y, x] = true; // Mark the point as part of the circle
+                        if (distance <= radius)
+                        {
+                            canvas[y, x] = true;
+                        }
+                    }
+                    else
+                    {
+                        if (distance >= radius - circleWidth &&
+                            distance <= radius + circleWidth)
+                        {
+                            canvas[y, x] = true;
+                        }
                     }
                 }
             }
         }
+
 
         public static WriteableBitmap CreateWriteableBitmapFromArray(bool[,] canvas)
         {
@@ -74,6 +89,77 @@ namespace artistic_image_effect_dotnet
 
             return bitmap;
         }
+
+        public static bool[,] DrawFilledCirclesWidthSizes(bool[,] baseCanvas, WriteableBitmap imageBitmap)
+        {
+            int height = baseCanvas.GetLength(0);
+            int width = baseCanvas.GetLength(1);
+            var drawCanvas = new bool[height, width];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    if (baseCanvas[y, x] == true)
+                    {
+                        int radius = Convert.ToInt32(5 * GetAverageBrightness(ref imageBitmap, x, y, 20));
+                        DrawCircle(ref drawCanvas, x, y, radius, 1, true);
+                    }
+                }
+            }
+
+            return drawCanvas;
+        }
+
+        public static double GetAverageBrightness(ref WriteableBitmap canvas, int x, int y, int radius)
+        {
+            canvas.Lock();
+
+            int width = canvas.PixelWidth;
+            int height = canvas.PixelHeight;
+
+            unsafe
+            {
+                int* pixels = (int*)canvas.BackBuffer;
+
+                int minX = Math.Max(0, x - radius);
+                int maxX = Math.Min(width - 1, x + radius);
+                int minY = Math.Max(0, y - radius);
+                int maxY = Math.Min(height - 1, y + radius);
+
+                long totalBrightness = 0;
+                int pixelCount = 0;
+
+                for (int j = minY; j <= maxY; j++)
+                {
+                    for (int i = minX; i <= maxX; i++)
+                    {
+                        int pixel = pixels[j * width + i];
+
+                        int r = (pixel >> 16) & 0xFF;
+                        int g = (pixel >> 8) & 0xFF;
+                        int b = pixel & 0xFF;
+
+                        int brightness = (r + g + b) / 3;
+
+                        totalBrightness += brightness;
+                        pixelCount++;
+                    }
+                }
+
+                canvas.Unlock();
+
+                if (pixelCount == 0)
+                    return 0.0;
+
+                double avg = (double)totalBrightness / pixelCount;
+
+                // convert 0–255 to 0–1
+                return avg / 255.0;
+            }
+        }
+
+
+
     }
 
 }
