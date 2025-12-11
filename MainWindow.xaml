@@ -33,34 +33,52 @@
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
                         <StackPanel Orientation="Horizontal" >
 
-                            <StackPanel>
-                                <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
-                                <ComboBox x:Name="GlobalCombo" Width="180" SelectedIndex="0">
-                                    <ComboBoxItem>Option A</ComboBoxItem>
-                                    <ComboBoxItem>Option B</ComboBoxItem>
-                                    <ComboBoxItem>Option C</ComboBoxItem>
-                                </ComboBox>
+                            <StackPanel Orientation="Vertical" >
+                                <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles center x: " />
+                                <xctk:SingleUpDown Name="ConcIntX" Width="100" Value="100"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles center y: " />
+                                <xctk:SingleUpDown Name="ConcIntY" Width="100" Value="0"/>
                             </StackPanel>
 
-                            <StackPanel>
-                                <TextBlock Text="Slider (0–100)" Margin="0,0,0,4"/>
-                                <Slider x:Name="GlobalSlider" Width="180" Minimum="0" Maximum="100"
-                                        Value="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                            
+
+
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles total number: " />
+                                <xctk:SingleUpDown Name="ConcIntNum" Width="100" Value="10"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles increment: " />
+                                <xctk:SingleUpDown Name="ConcIntInc" Width="100" Value="10"/>
                             </StackPanel>
 
-                            <StackPanel>
-                                <TextBlock Text="Color 1" Margin="0,0,0,4"/>
-                                <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Coral"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles line width: " />
+                                <xctk:SingleUpDown Name="ConcIntLineWidth" Width="100" Value="2"/>
                             </StackPanel>
-
-                            <StackPanel>
-                                <TextBlock Text="Color 2" Margin="0,0,0,4"/>
-                                <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkOrchid"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Concentric circles size: " />
+                                <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
                             </StackPanel>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Vertical" >
 
-                            <StackPanel>
-                                <TextBlock Text="Integer input" Margin="0,0,0,4"/>
-                                <TextBox x:Name="GlobalInteger" Width="80" MaxLength="6"/>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Foreground color: " Margin="0,0,0,4"/>
+                                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Coral"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Background color: " Margin="0,0,0,4"/>
+                                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkOrchid"/>
+                            </StackPanel>
+                                
+                                
                             </StackPanel>
 
                         </StackPanel>

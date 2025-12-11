@@ -54,8 +54,8 @@ namespace Dotnet8ThreeColumnViewer
                 bi.UriSource = new Uri(path);
                 bi.EndInit();
                 bi.Freeze();
-                loadedImageWidth = Convert.ToInt32(bi.Width);
-                loadedImageHeight = Convert.ToInt32(bi.Height);
+                loadedImageWidth = Convert.ToInt32(bi.PixelWidth);
+                loadedImageHeight = Convert.ToInt32(bi.PixelHeight);
 
                 _columnBitmaps[columnIndex] = bi;
                 SetImageSourceForColumn(columnIndex, bi);
@@ -94,20 +94,28 @@ namespace Dotnet8ThreeColumnViewer
 
             // Do the drawing stuff on the canvas
 
-            for (int i = 0; i < 120; i++)
+            for (int i = 0; i < Convert.ToInt32(ConcIntNum.Value); i++)
             {
-                ImageEffect.DrawCircle(ref canvas, Convert.ToInt32(loadedImageWidth / 2), 0, i * 10, 2, false);
+                ImageEffect.DrawCircle(ref canvas,
+                    Convert.ToInt32(ConcIntX.Value),
+                    Convert.ToInt32(ConcIntY.Value),
+                    i * Convert.ToInt32(ConcIntInc.Value),
+                    Convert.ToInt32(ConcIntLineWidth.Value),
+                    false);
             }
             var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
-            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap);
+            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(canvas, precalculatedBitmap, Convert.ToInt32(ConcIntCircleSize.Value));
 
-            // Set the middle image
-            var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
-            _columnBitmaps[1] = bitmapCanvas;
-            SetImageSourceForColumn(1, bitmapCanvas);
 
-            if (GlobalColor1.SelectedColor != null)
+            // Set the images
+            if (GlobalColor1.SelectedColor != null && GlobalColor2.SelectedColor != null)
             {
+
+                // Set the middle image
+                var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
+                _columnBitmaps[1] = bitmapCanvas;
+                SetImageSourceForColumn(1, bitmapCanvas);
+
                 // Set the right output image
                 var drawnBitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(drawnCanvas,
                     ImageEffect.ConvertColorToUInt(GlobalColor1.SelectedColor.Value),
