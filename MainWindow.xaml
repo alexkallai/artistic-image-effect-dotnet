@@ -61,7 +61,7 @@
                                 <xctk:SingleUpDown Name="ConcIntLineWidth" Width="100" Value="2"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles size: " />
+                                <TextBlock Text="Concentric circles line variable max width: " />
                                 <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
