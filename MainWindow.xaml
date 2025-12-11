@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Dotnet8ThreeColumnViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Three-column Image Viewer" Height="720" Width="1200"
         AllowDrop="True"
         Drop="Window_Drop"
@@ -8,59 +9,86 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+            <!-- menu -->
+            <RowDefinition Height="Auto"/>
+            <!-- global controls -->
+            <RowDefinition Height="*"/>
+            <!-- image columns -->
         </Grid.RowDefinitions>
 
-        <!-- Top menu row -->
+        <!-- Menu -->
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Click="OpenMenu_Click" />
+                <MenuItem Header="_Open..." Click="OpenMenu_Click"/>
             </MenuItem>
         </Menu>
 
-        <!-- Work area: three equal columns -->
-        <Grid Grid.Row="1" Margin="8">
+        <!-- Global controls -->
+        <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10">
+            <StackPanel Orientation="Horizontal"  VerticalAlignment="Center">
+
+                <!-- Dropdown -->
+                <StackPanel>
+                    <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="GlobalCombo" Width="180" SelectedIndex="0">
+                        <ComboBoxItem>Option A</ComboBoxItem>
+                        <ComboBoxItem>Option B</ComboBoxItem>
+                        <ComboBoxItem>Option C</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Slider -->
+                <StackPanel>
+                    <TextBlock Text="Slider (0–100)" Margin="0,0,0,4"/>
+                    <Slider x:Name="GlobalSlider" Width="180" Minimum="0" Maximum="100" Value="50" TickFrequency="1" IsSnapToTickEnabled="True"/>
+                </StackPanel>
+
+                <!-- Color 1 -->
+                <StackPanel>
+                    <TextBlock Text="Color 1" Margin="0,0,0,4"/>
+                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140"/>
+                </StackPanel>
+
+                <!-- Color 2 -->
+                <StackPanel>
+                    <TextBlock Text="Color 2" Margin="0,0,0,4"/>
+                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140"/>
+                </StackPanel>
+
+                <!-- Integer input -->
+                <StackPanel>
+                    <TextBlock Text="Integer input" Margin="0,0,0,4"/>
+                    <TextBox x:Name="GlobalInteger" Width="80"
+                             
+                             MaxLength="6"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Columns -->
+        <Grid Grid.Row="2" Margin="8">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Column template repeated 3x -->
             <!-- Column 0 -->
             <Border Grid.Column="0" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <!-- fixed height area for selectors so each column's control area matches in size -->
-                        <RowDefinition Height="120" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Top selectors area -->
-                    <StackPanel Grid.Row="0" Orientation="Vertical" >
-                        <TextBlock Text="Column 1 Controls" FontWeight="Bold" Margin="0,0,0,6" />
-                        <ComboBox x:Name="Combo0" Width="200" SelectedIndex="0">
-                            <ComboBoxItem>Option A</ComboBoxItem>
-                            <ComboBoxItem>Option B</ComboBoxItem>
-                            <ComboBoxItem>Option C</ComboBoxItem>
-                        </ComboBox>
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Slider:" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <Slider x:Name="Slider0" Width="160" Minimum="0" Maximum="100" Value="50" />
-                        </StackPanel>
-                    </StackPanel>
-
-                    <!-- Image area -->
-                    <Viewbox Grid.Row="1" Stretch="Uniform">
-                        <!-- Use an Image inside a Viewbox so it always fits proportionally into the available area -->
-                        <Image x:Name="Image0" Stretch="Uniform" />
+                    <Viewbox Grid.Row="0" Stretch="Uniform">
+                        <Image x:Name="Image0" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <!-- Save button -->
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="0" Padding="8,4" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="0" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -69,29 +97,16 @@
             <Border Grid.Column="1" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Orientation="Vertical" >
-                        <TextBlock Text="Column 2 Controls" FontWeight="Bold" Margin="0,0,0,6" />
-                        <ComboBox x:Name="Combo1" Width="200" SelectedIndex="0">
-                            <ComboBoxItem>Option A</ComboBoxItem>
-                            <ComboBoxItem>Option B</ComboBoxItem>
-                        </ComboBox>
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Slider:" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <Slider x:Name="Slider1" Width="160" Minimum="0" Maximum="100" Value="20" />
-                        </StackPanel>
-                    </StackPanel>
-
-                    <Viewbox Grid.Row="1" Stretch="Uniform">
-                        <Image x:Name="Image1" Stretch="Uniform" />
+                    <Viewbox Grid.Row="0" Stretch="Uniform">
+                        <Image x:Name="Image1" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="1" Padding="8,4" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="1" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -100,29 +115,16 @@
             <Border Grid.Column="2" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0" Orientation="Vertical" >
-                        <TextBlock Text="Column 3 Controls" FontWeight="Bold" Margin="0,0,0,6" />
-                        <ComboBox x:Name="Combo2" Width="200" SelectedIndex="0">
-                            <ComboBoxItem>Option A</ComboBoxItem>
-                            <ComboBoxItem>Option B</ComboBoxItem>
-                        </ComboBox>
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="Slider:" VerticalAlignment="Center" Margin="0,0,8,0" />
-                            <Slider x:Name="Slider2" Width="160" Minimum="0" Maximum="100" Value="80" />
-                        </StackPanel>
-                    </StackPanel>
-
-                    <Viewbox Grid.Row="1" Stretch="Uniform">
-                        <Image x:Name="Image2" Stretch="Uniform" />
+                    <Viewbox Grid.Row="0" Stretch="Uniform">
+                        <Image x:Name="Image2" Stretch="Uniform"/>
                     </Viewbox>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="2" Padding="8,4" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="2" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>

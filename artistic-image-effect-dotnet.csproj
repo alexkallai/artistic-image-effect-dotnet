@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
     <PackageReference Include="WriteableBitmapEx" Version="1.6.9" />
   </ItemGroup>
 
