@@ -1,91 +1,79 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Windows.Media.Imaging;
 
 namespace artistic_image_effect_dotnet
 {
     public static class ImageEffect
     {
-        public static WriteableBitmap Render(
-                                        int width,
-                                        int height,
-                                        double frequency,
-                                        double thickness)
+        public static void DrawCircle(ref bool[,] canvas, int centerX, int centerY, int radius, int circleWidth)
         {
-            var field = GenerateConcentricCircles(
-                width,
-                height,
-                frequency,
-                thickness);
+            int height = canvas.GetLength(0);
+            int width = canvas.GetLength(1);
 
-            return ToBlackWhiteBitmap(field);
+            // Define the bounds for iteration, limited to the canvas dimensions
+            int minX = Math.Max(0, centerX - radius - circleWidth);
+            int maxX = Math.Min(width - 1, centerX + radius + circleWidth);
+            int minY = Math.Max(0, centerY - radius - circleWidth);
+            int maxY = Math.Min(height - 1, centerY + radius + circleWidth);
+
+            // Iterate through the limited bounds
+            for (int y = minY; y <= maxY; y++)
+            {
+                for (int x = minX; x <= maxX; x++)
+                {
+                    // Calculate the distance from the current point to the circle's center
+                    double distance = Math.Sqrt(Math.Pow(x - centerX, 2) + Math.Pow(y - centerY, 2));
+
+                    // Check if the point is within the circle's width
+                    if (distance >= radius - circleWidth && distance <= radius + circleWidth)
+                    {
+                        canvas[y, x] = true; // Mark the point as part of the circle
+                    }
+                }
+            }
         }
 
-        // true = black pixel, false = white pixel
-        public static bool[,] GenerateConcentricCircles(
-            int width,
-            int height,
-            double frequency,
-            double thickness)
+        public static WriteableBitmap CreateWriteableBitmapFromArray(bool[,] canvas)
         {
-            var field = new bool[height, width];
+            int height = canvas.GetLength(0);
+            int width = canvas.GetLength(1);
 
-            for (int y = 0; y < height; y++)
+            // Create a WriteableBitmap with the same dimensions as the array
+            WriteableBitmap bitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
+
+            // Lock the bitmap for writing
+            bitmap.Lock();
+
+            unsafe
             {
-                for (int x = 0; x < width; x++)
+                // Get a pointer to the back buffer
+                int* pixels = (int*)bitmap.BackBuffer;
+
+                // Iterate through the array and set pixels
+                for (int y = 0; y < height; y++)
                 {
-                    double nx = (x / (double)width) * 2.0 - 1.0;
-                    double ny = (y / (double)height) * 2.0 - 1.0;
-
-                    double r = Math.Sqrt(nx * nx + ny * ny);
-                    double value = Math.Sin(r * frequency * Math.PI * 2.0);
-
-                    field[y, x] = Math.Abs(value) < thickness;
+                    for (int x = 0; x < width; x++)
+                    {
+                        // Set pixel colour based on the array value
+                        if (canvas[y, x])
+                        {
+                            // White for true
+                            pixels[y * width + x] = unchecked((int)0xFFFFFFFF); // ARGB: White
+                        }
+                        else
+                        {
+                            // Black for false
+                            pixels[y * width + x] = unchecked((int)0xFF000000); // ARGB: Black
+                        }
+                    }
                 }
             }
 
-            return field;
-        }
+            // Unlock the bitmap and make it ready for rendering
+            bitmap.AddDirtyRect(new System.Windows.Int32Rect(0, 0, width, height));
+            bitmap.Unlock();
 
-        public static WriteableBitmap ToBlackWhiteBitmap(bool[,] field)
-        {
-            int height = field.GetLength(0);
-            int width = field.GetLength(1);
-
-            int stride = (width + 7) / 8;
-            byte[] pixels = new byte[height * stride];
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    if (!field[y, x])
-                        continue;
-
-                    int byteIndex = y * stride + (x >> 3);
-                    int bitIndex = 7 - (x & 7);
-
-                    pixels[byteIndex] |= (byte)(1 << bitIndex);
-                }
-            }
-
-            var bmp = new WriteableBitmap(
-                width,
-                height,
-                96,
-                96,
-                PixelFormats.BlackWhite,
-                null);
-
-            bmp.WritePixels(
-                new Int32Rect(0, 0, width, height),
-                pixels,
-                stride,
-                0);
-
-            return bmp;
+            return bitmap;
         }
     }
-
 
 }

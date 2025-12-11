@@ -10,12 +10,13 @@ namespace Dotnet8ThreeColumnViewer
     {
         // Keep the images for each column accessible programmatically
         private readonly BitmapSource?[] _columnBitmaps = new BitmapSource?[3];
+        private bool[,] canvas;
+        private int loadedImageWidth;
+        private int loadedImageHeight;
 
         public MainWindow()
         {
             InitializeComponent();
-            var img = ImageEffect.Render(1000, 1500, 10, 0.9);
-            SetImageSourceForColumn(1, img);
 
         }
 
@@ -45,19 +46,33 @@ namespace Dotnet8ThreeColumnViewer
             {
                 // Load with OnLoad so file is not locked and we can save later
                 var bi = new BitmapImage();
+
                 bi.BeginInit();
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.UriSource = new Uri(path);
                 bi.EndInit();
                 bi.Freeze();
+                loadedImageWidth = Convert.ToInt32(bi.Width);
+                loadedImageHeight = Convert.ToInt32(bi.Height);
 
                 _columnBitmaps[columnIndex] = bi;
                 SetImageSourceForColumn(columnIndex, bi);
+
+                CanvasPipeline();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(this, "Failed to load image: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void CanvasPipeline()
+        {
+            canvas = new bool[loadedImageHeight, loadedImageWidth];
+
+            ImageEffect.DrawCircle(ref canvas, 10, 10, 5, 1);
+
+            SetImageSourceForColumn(1, ImageEffect.CreateWriteableBitmapFromArray(canvas));
         }
 
         private void SetImageSourceForColumn(int columnIndex, BitmapSource? bmp)
