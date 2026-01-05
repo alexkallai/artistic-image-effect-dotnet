@@ -26,7 +26,7 @@
 
         <!-- Global Controls (Tabbed) -->
         <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10" Height="200">
-            <TabControl x:Name="GlobalControlTabs" Margin="0" SelectionChanged="GlobalControlTabs_SelectedIntecChanged">
+            <TabControl x:Name="GlobalControlTabs" Height="179" VerticalAlignment="Top">
 
                 <!-- TAB 1: original layout (horizontal) -->
                 <TabItem Header="Concentric circles">
@@ -35,43 +35,42 @@
 
                             <StackPanel Orientation="Vertical" >
                                 <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles center x: " />
-                                <xctk:SingleUpDown Name="ConcIntX" Width="100" Value="100"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles center y: " />
-                                <xctk:SingleUpDown Name="ConcIntY" Width="100" Value="0"/>
-                            </StackPanel>
-
-                            
+                                    <TextBlock Text="Concentric circles center x: " />
+                                    <xctk:SingleUpDown Name="ConcIntX" Width="100" Value="100"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric circles center y: " />
+                                    <xctk:SingleUpDown Name="ConcIntY" Width="100" Value="0"/>
+                                </StackPanel>
 
 
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles total number: " />
-                                <xctk:SingleUpDown Name="ConcIntNum" Width="100" Value="10"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles increment: " />
-                                <xctk:SingleUpDown Name="ConcIntInc" Width="100" Value="10"/>
-                            </StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles line width: " />
-                                <xctk:SingleUpDown Name="ConcIntLineWidth" Width="100" Value="2"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric circles line variable max width: " />
-                                <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Concentric average distance: " />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric circles total number: " />
+                                    <xctk:SingleUpDown Name="ConcIntNum" Width="100" Value="10"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric circles increment: " />
+                                    <xctk:SingleUpDown Name="ConcIntInc" Width="100" Value="10"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric circles line width: " />
+                                    <xctk:SingleUpDown Name="ConcIntLineWidth" Width="100" Value="2"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric circles line variable max width: " />
+                                    <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Concentric average distance: " />
                                     <xctk:SingleUpDown Name="ConcIntBrightnessAverageDistance" Width="100" Value="20"/>
+                                </StackPanel>
                             </StackPanel>
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Vertical" >
 
+                            <StackPanel Orientation="Vertical" >
 
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Foreground color: " Margin="0,0,0,4"/>
@@ -80,17 +79,27 @@
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Background color: " Margin="0,0,0,4"/>
                                     <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkSeaGreen"/>
+                                </StackPanel>
+
                             </StackPanel>
-                                
-                                
+
+                            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" >
+
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="RENDER" Click="RenderButtonClick"></Button>
+                                </StackPanel>
+
+
                             </StackPanel>
 
                         </StackPanel>
                     </ScrollViewer>
+
                 </TabItem>
 
                 <!-- TAB 2: vertical, compact layout -->
                 <TabItem Header="Preset B">
+
                     <StackPanel Orientation="Vertical" >
 
                         <StackPanel>
@@ -167,7 +176,9 @@
                 </TabItem>
 
             </TabControl>
+            
         </Border>
+        
 
         <!-- Columns -->
         <Grid Grid.Row="2" Margin="8">
@@ -176,6 +187,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
 
             <!-- Column 0 -->
             <Border Grid.Column="0" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">

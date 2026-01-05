@@ -211,14 +211,20 @@ namespace Dotnet8ThreeColumnViewer
             if (columnIndex < 0 || columnIndex > 2) throw new ArgumentOutOfRangeException(nameof(columnIndex));
             return _columnBitmaps[columnIndex];
         }
-        private void GlobalControlTabs_SelectedIntecChanged(Object sender, EventArgs e)
+
+        private void CallSelectedPipelineWithErrorHandling()
         {
-            System.Diagnostics.Debug.WriteLine(GlobalControlTabs.SelectedItem);
             if (_columnBitmaps[0] != null)
             {
                 CallSelectedPipeline();
             }
         }
+
+        private void RenderButtonClick(object sender, RoutedEventArgs e)
+        {
+            CallSelectedPipelineWithErrorHandling();
+        }
+
 
     }
 }
