@@ -13,6 +13,8 @@
             <!-- menu -->
             <RowDefinition Height="Auto"/>
             <!-- global controls (tabbed) -->
+            <RowDefinition Height="Auto"/>
+            <!-- color pickers + render button -->
             <RowDefinition Height="*"/>
             <!-- image columns -->
         </Grid.RowDefinitions>
@@ -31,77 +33,52 @@
                 <!-- TAB 1: original layout (horizontal) -->
                 <TabItem Header="Concentric circles">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                        <StackPanel Orientation="Horizontal" >
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="110"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                            <StackPanel Orientation="Vertical" >
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles center x: " />
-                                    <xctk:SingleUpDown Name="ConcIntX" Width="100" Value="100"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles center y: " />
-                                    <xctk:SingleUpDown Name="ConcIntY" Width="100" Value="0"/>
-                                </StackPanel>
+                            <!-- Row 0 -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Circles center X:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="0" Grid.Column="1" Name="ConcIntX" Width="100" Value="100" Margin="0,2"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Circles center Y:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="0" Grid.Column="4" Name="ConcIntY" Width="100" Value="0" Margin="0,2"/>
 
+                            <!-- Row 1 -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Total number of circles:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="1" Grid.Column="1" Name="ConcIntNum" Width="100" Value="10" Margin="0,2"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Increment:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="1" Grid.Column="4" Name="ConcIntInc" Width="100" Value="10" Margin="0,2"/>
 
+                            <!-- Row 2 -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Pattern line width:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="2" Grid.Column="1" Name="ConcIntLineWidth" Width="100" Value="2" Margin="0,2"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Variable line max width:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="2" Grid.Column="4" Name="ConcIntCircleSize" Width="100" Value="20" Margin="0,2"/>
 
+                            <!-- Row 3 -->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Brightness averaging distance:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="3" Grid.Column="1" Name="ConcIntBrightnessAverageDistance" Width="100" Value="20" Margin="0,2"/>
 
+                            <!-- Row 4 (available for future controls) -->
 
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles total number: " />
-                                    <xctk:SingleUpDown Name="ConcIntNum" Width="100" Value="10"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles increment: " />
-                                    <xctk:SingleUpDown Name="ConcIntInc" Width="100" Value="10"/>
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles line width: " />
-                                    <xctk:SingleUpDown Name="ConcIntLineWidth" Width="100" Value="2"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric circles line variable max width: " />
-                                    <xctk:SingleUpDown Name="ConcIntCircleSize" Width="100" Value="20"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Concentric average distance: " />
-                                    <xctk:SingleUpDown Name="ConcIntBrightnessAverageDistance" Width="100" Value="20"/>
-                                </StackPanel>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical" >
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Foreground color: " Margin="0,0,0,4"/>
-                                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Black"/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Background color: " Margin="0,0,0,4"/>
-                                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkSeaGreen"/>
-                                </StackPanel>
-
-                            </StackPanel>
-
-                            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical" >
-
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="RENDER" Click="RenderButtonClick"></Button>
-                                </StackPanel>
-
-
-                            </StackPanel>
-
-                        </StackPanel>
+                        </Grid>
                     </ScrollViewer>
-
                 </TabItem>
-
                 <!-- TAB 2: vertical, compact layout -->
                 <TabItem Header="Preset B">
-
-                    <StackPanel Orientation="Vertical" >
-
+                    <StackPanel Orientation="Vertical">
                         <StackPanel>
                             <TextBlock Text="Dropdown selection" Margin="0,0,0,4"/>
                             <ComboBox Width="200">
@@ -109,24 +86,20 @@
                                 <ComboBoxItem>Choice 2</ComboBoxItem>
                             </ComboBox>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Intensity" Margin="0,0,0,4"/>
                             <Slider Width="200" Minimum="0" Maximum="100"/>
                         </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" >
+                        <StackPanel Orientation="Horizontal">
                             <StackPanel>
                                 <TextBlock Text="Color A" Margin="0,0,0,4"/>
                                 <xctk:ColorPicker Width="120"/>
                             </StackPanel>
-
                             <StackPanel>
                                 <TextBlock Text="Color B" Margin="0,0,0,4"/>
                                 <xctk:ColorPicker Width="120"/>
                             </StackPanel>
                         </StackPanel>
-
                     </StackPanel>
                 </TabItem>
 
@@ -138,7 +111,6 @@
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="200"/>
                         </Grid.ColumnDefinitions>
-
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -151,43 +123,54 @@
                                 <ComboBoxItem>Two</ComboBoxItem>
                             </ComboBox>
                         </StackPanel>
-
                         <StackPanel Grid.Column="1" Grid.Row="0">
                             <TextBlock Text="Slider" Margin="0,0,0,4"/>
                             <Slider Width="180" Minimum="0" Maximum="100"/>
                         </StackPanel>
-
                         <StackPanel Grid.Column="2" Grid.Row="0">
                             <TextBlock Text="Integer" Margin="0,0,0,4"/>
                             <TextBox Width="100"/>
                         </StackPanel>
-
                         <StackPanel Grid.Column="0" Grid.Row="1">
                             <TextBlock Text="Color 1" Margin="0,0,0,4"/>
                             <xctk:ColorPicker Width="160"/>
                         </StackPanel>
-
                         <StackPanel Grid.Column="1" Grid.Row="1">
                             <TextBlock Text="Color 2" Margin="0,0,0,4"/>
                             <xctk:ColorPicker Width="160"/>
                         </StackPanel>
-
                     </Grid>
                 </TabItem>
 
             </TabControl>
-            
         </Border>
-        
 
-        <!-- Columns -->
-        <Grid Grid.Row="2" Margin="8">
+        <!-- Global Color Pickers and Render Button (outside tabs) -->
+        <Border Grid.Row="2" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10" Background="#F5F5F5">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Foreground color: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <xctk:ColorPicker x:Name="GlobalColor1" Width="140" SelectedColor="Black"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                    <TextBlock Text="Background color: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <xctk:ColorPicker x:Name="GlobalColor2" Width="140" SelectedColor="DarkSeaGreen"/>
+                </StackPanel>
+
+                <Button Content="RENDER" Click="RenderButtonClick" Padding="20,8" FontWeight="Bold"/>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Image Columns -->
+        <Grid Grid.Row="3" Margin="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
 
             <!-- Column 0 -->
             <Border Grid.Column="0" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
@@ -196,15 +179,11 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
                     <Viewbox Grid.Row="0" Stretch="Uniform">
                         <Image x:Name="Image0" Stretch="Uniform"/>
                     </Viewbox>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal"
-                                HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click"
-                                Tag="0" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="0" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -216,15 +195,11 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
                     <Viewbox Grid.Row="0" Stretch="Uniform">
                         <Image x:Name="Image1" Stretch="Uniform"/>
                     </Viewbox>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal"
-                                HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click"
-                                Tag="1" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="1" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -236,15 +211,11 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
                     <Viewbox Grid.Row="0" Stretch="Uniform">
                         <Image x:Name="Image2" Stretch="Uniform"/>
                     </Viewbox>
-
-                    <StackPanel Grid.Row="1" Orientation="Horizontal"
-                                HorizontalAlignment="Right" Margin="10">
-                        <Button Content="Save PNG" Click="SaveImage_Click"
-                                Tag="2" Padding="8,4"/>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                        <Button Content="Save PNG" Click="SaveImage_Click" Tag="2" Padding="8,4"/>
                     </StackPanel>
                 </Grid>
             </Border>
