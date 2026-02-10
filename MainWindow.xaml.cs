@@ -19,6 +19,7 @@ namespace Dotnet8ThreeColumnViewer
         public MainWindow()
         {
             InitializeComponent();
+            Application.Current.MainWindow.WindowState = WindowState.Maximized;
 
         }
 
