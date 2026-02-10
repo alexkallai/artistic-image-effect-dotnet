@@ -141,6 +141,7 @@ namespace Dotnet8ThreeColumnViewer
             Dictionary<string, Action> tabPairing = new Dictionary<string, Action>()
             {
                 { "Concentric circles", ConcentricCirclesPipeline},
+                { "Phyllotaxis spiral", PhyllotaxisSpiralPipeline }
             };
             var selected = GlobalControlTabs.SelectedItem as TabItem;
             var selectedString = selected?.Header.ToString();
@@ -193,6 +194,62 @@ namespace Dotnet8ThreeColumnViewer
             }
 
         }
+
+        private void PhyllotaxisSpiralPipeline()
+        {
+            canvas = new bool[loadedImageHeight, loadedImageWidth];
+
+            int count = Convert.ToInt32(PhyIntNum.Value);
+            int centerX = Convert.ToInt32(PhyIntX.Value);
+            int centerY = Convert.ToInt32(PhyIntY.Value);
+            int scale = Convert.ToInt32(PhyIntInc.Value);
+            int pointRadius = Convert.ToInt32(PhyIntLineWidth.Value);
+            int maxVariableSize = Convert.ToInt32(PhyIntCircleSize.Value);
+            int brightnessDistance = Convert.ToInt32(PhyIntBrightnessAverageDistance.Value);
+
+            double goldenAngle = Math.PI * (3.0 - Math.Sqrt(5.0)); // ~137.5°
+
+            for (int i = 0; i < count; i++)
+            {
+                double radius = Math.Sqrt(i) * scale;
+                double angle = i * goldenAngle;
+
+                int x = centerX + (int)(radius * Math.Cos(angle));
+                int y = centerY + (int)(radius * Math.Sin(angle));
+
+                ImageEffect.DrawCircle(
+                    ref canvas,
+                    x,
+                    y,
+                    pointRadius,
+                    pointRadius,
+                    true);
+            }
+
+            var precalculatedBitmap = new WriteableBitmap(_columnBitmaps[0]);
+            var drawnCanvas = ImageEffect.DrawFilledCirclesWidthSizes(
+                canvas,
+                precalculatedBitmap,
+                maxVariableSize,
+                brightnessDistance);
+
+            if (GlobalColor1.SelectedColor != null && GlobalColor2.SelectedColor != null)
+            {
+                var bitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(canvas);
+                _columnBitmaps[1] = bitmapCanvas;
+                SetImageSourceForColumn(1, bitmapCanvas);
+
+                var drawnBitmapCanvas = ImageEffect.CreateWriteableBitmapFromArray(
+                    drawnCanvas,
+                    ImageEffect.ConvertColorToUInt(GlobalColor1.SelectedColor.Value),
+                    ImageEffect.ConvertColorToUInt(GlobalColor2.SelectedColor.Value));
+
+                _columnBitmaps[2] = drawnBitmapCanvas;
+                SetImageSourceForColumn(2, drawnBitmapCanvas);
+            }
+        }
+
+
 
         private void SetImageSourceForColumn(int columnIndex, BitmapSource? bmp)
         {

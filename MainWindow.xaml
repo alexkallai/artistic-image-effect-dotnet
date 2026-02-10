@@ -76,6 +76,50 @@
                         </Grid>
                     </ScrollViewer>
                 </TabItem>
+                <TabItem Header="Phyllotaxis spiral">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="110"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Row 0 -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Spiral center X:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="0" Grid.Column="1" Name="PhyIntX" Width="100" Value="100" Margin="0,2"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Spiral center Y:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="0" Grid.Column="4" Name="PhyIntY" Width="100" Value="0" Margin="0,2"/>
+
+                            <!-- Row 1 -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Total number of points:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="1" Grid.Column="1" Name="PhyIntNum" Width="100" Value="300" Margin="0,2"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="Radial increment:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="1" Grid.Column="4" Name="PhyIntInc" Width="100" Value="6" Margin="0,2"/>
+
+                            <!-- Row 2 -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Point radius:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="2" Grid.Column="1" Name="PhyIntLineWidth" Width="100" Value="2" Margin="0,2"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="Variable size max:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="2" Grid.Column="4" Name="PhyIntCircleSize" Width="100" Value="20" Margin="0,2"/>
+
+                            <!-- Row 3 -->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Brightness averaging distance:" VerticalAlignment="Center" Margin="0,2"/>
+                            <xctk:SingleUpDown Grid.Row="3" Grid.Column="1" Name="PhyIntBrightnessAverageDistance" Width="100" Value="20" Margin="0,2"/>
+
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+
                 <!-- TAB 2: vertical, compact layout -->
                 <TabItem Header="Preset B">
                     <StackPanel Orientation="Vertical">
