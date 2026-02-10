@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -21,7 +22,40 @@ namespace Dotnet8ThreeColumnViewer
         {
             InitializeComponent();
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            // Add KeyDown handler for Escape key
+            this.KeyDown += MainWindow_KeyDown;
 
+        }
+        private void Image_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Image clickedImage && clickedImage.Source != null)
+            {
+                OverlayImage.Source = clickedImage.Source;
+                ImageOverlay.Visibility = Visibility.Visible;
+
+                // Set focus to enable keyboard input
+                ImageOverlay.Focus();
+            }
+        }
+
+        private void ImageOverlay_Click(object sender, MouseButtonEventArgs e)
+        {
+            CloseOverlay();
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape && ImageOverlay.Visibility == Visibility.Visible)
+            {
+                CloseOverlay();
+                e.Handled = true;
+            }
+        }
+
+        private void CloseOverlay()
+        {
+            ImageOverlay.Visibility = Visibility.Collapsed;
+            OverlayImage.Source = null;
         }
 
         private void OpenMenu_Click(object sender, RoutedEventArgs e)

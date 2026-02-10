@@ -172,6 +172,7 @@
 
             </StackPanel>
         </Border>
+
         <!-- Image Columns -->
         <Grid Grid.Row="3" Margin="8">
             <Grid.ColumnDefinitions>
@@ -188,7 +189,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="0" Stretch="Uniform">
-                        <Image x:Name="Image0" Stretch="Uniform"/>
+                        <Image x:Name="Image0" Stretch="Uniform" MouseLeftButtonDown="Image_Click" Cursor="Hand"/>
                     </Viewbox>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Save PNG" Click="SaveImage_Click" Tag="0" Padding="8,4"/>
@@ -204,7 +205,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="0" Stretch="Uniform">
-                        <Image x:Name="Image1" Stretch="Uniform"/>
+                        <Image x:Name="Image1" Stretch="Uniform" MouseLeftButtonDown="Image_Click" Cursor="Hand"/>
                     </Viewbox>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Save PNG" Click="SaveImage_Click" Tag="1" Padding="8,4"/>
@@ -220,7 +221,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="0" Stretch="Uniform">
-                        <Image x:Name="Image2" Stretch="Uniform"/>
+                        <Image x:Name="Image2" Stretch="Uniform" MouseLeftButtonDown="Image_Click" Cursor="Hand"/>
                     </Viewbox>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                         <Button Content="Save PNG" Click="SaveImage_Click" Tag="2" Padding="8,4"/>
@@ -229,5 +230,18 @@
             </Border>
 
         </Grid>
+
+        <!-- Fullscreen Image Overlay -->
+        <Grid x:Name="ImageOverlay" Grid.Row="0" Grid.RowSpan="4" 
+              Background="#DD000000" Visibility="Collapsed"
+              MouseLeftButtonDown="ImageOverlay_Click">
+            <Image x:Name="OverlayImage" Stretch="Uniform" Margin="20"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="Click anywhere or press ESC to close" 
+                       Foreground="White" FontSize="14"
+                       HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                       Margin="0,0,0,10" Opacity="0.7"/>
+        </Grid>
+
     </Grid>
 </Window>
