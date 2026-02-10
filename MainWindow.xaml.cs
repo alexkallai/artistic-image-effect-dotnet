@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Dotnet8ThreeColumnViewer
@@ -33,11 +34,11 @@ namespace Dotnet8ThreeColumnViewer
 
             if (dlg.ShowDialog(this) == true)
             {
-                LoadFileToColumn(dlg.FileName, 0);
+                LoadFileToColumn(dlg.FileName, 0, (float)TargetMegapixels.Value!);
             }
         }
 
-        private void LoadFileToColumn(string path, int columnIndex)
+        private void LoadFileToColumn(string path, int columnIndex, float targetMegapixels)
         {
             if (!File.Exists(path))
             {
@@ -55,11 +56,44 @@ namespace Dotnet8ThreeColumnViewer
                 bi.UriSource = new Uri(path);
                 bi.EndInit();
                 bi.Freeze();
-                loadedImageWidth = Convert.ToInt32(bi.PixelWidth);
-                loadedImageHeight = Convert.ToInt32(bi.PixelHeight);
 
-                _columnBitmaps[columnIndex] = bi;
-                SetImageSourceForColumn(columnIndex, bi);
+                // Calculate current megapixels
+                int originalWidth = bi.PixelWidth;
+                int originalHeight = bi.PixelHeight;
+                double currentMegapixels = (originalWidth * originalHeight) / 1_000_000.0;
+
+                BitmapSource finalBitmap;
+
+                if (targetMegapixels > 0 && Math.Abs(currentMegapixels - targetMegapixels) > 0.01)
+                {
+                    // Calculate scale factor to reach target megapixels
+                    double scaleFactor = Math.Sqrt(targetMegapixels / currentMegapixels);
+
+                    int newWidth = (int)(originalWidth * scaleFactor);
+                    int newHeight = (int)(originalHeight * scaleFactor);
+
+                    // Resize using TransformedBitmap
+                    var transform = new ScaleTransform(scaleFactor, scaleFactor);
+                    var transformedBitmap = new TransformedBitmap(bi, transform);
+
+                    // Convert to WriteableBitmap to ensure proper pixel dimensions
+                    var resizedBitmap = new WriteableBitmap(
+                        new FormatConvertedBitmap(transformedBitmap, PixelFormats.Pbgra32, null, 0));
+                    resizedBitmap.Freeze();
+
+                    finalBitmap = resizedBitmap;
+                    loadedImageWidth = newWidth;
+                    loadedImageHeight = newHeight;
+                }
+                else
+                {
+                    finalBitmap = bi;
+                    loadedImageWidth = originalWidth;
+                    loadedImageHeight = originalHeight;
+                }
+
+                _columnBitmaps[columnIndex] = finalBitmap;
+                SetImageSourceForColumn(columnIndex, finalBitmap);
 
                 CallSelectedPipeline();
             }
@@ -68,7 +102,6 @@ namespace Dotnet8ThreeColumnViewer
                 MessageBox.Show(this, "Failed to load image: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void CallSelectedPipeline()
         {
             Dictionary<string, Action> tabPairing = new Dictionary<string, Action>()
@@ -203,7 +236,7 @@ namespace Dotnet8ThreeColumnViewer
             if (files == null || files.Length == 0) return;
 
             // Use the first file. Behavior matches Open: put into leftmost column
-            LoadFileToColumn(files[0], 0);
+            LoadFileToColumn(files[0], 0, (float)TargetMegapixels.Value!);
         }
 
         // Optional: expose programmatic access to the loaded image(s)
