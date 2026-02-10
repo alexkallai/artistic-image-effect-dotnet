@@ -27,7 +27,7 @@
         </Menu>
 
         <!-- Global Controls (Tabbed) -->
-        <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10" Height="200">
+        <Border Grid.Row="1" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="5" Height="200">
             <TabControl x:Name="GlobalControlTabs" Height="179" VerticalAlignment="Top">
 
                 <!-- TAB 1: original layout (horizontal) -->
@@ -146,7 +146,7 @@
         </Border>
 
         <!-- Global Color Pickers and Render Button (outside tabs) -->
-        <Border Grid.Row="2" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="10" Background="#F5F5F5">
+        <Border Grid.Row="2" BorderBrush="#CCC" BorderThickness="0,0,0,1" Padding="5" Background="#F5F5F5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 
                 <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
@@ -174,7 +174,7 @@
         </Border>
 
         <!-- Image Columns -->
-        <Grid Grid.Row="3" Margin="8">
+        <Grid Grid.Row="3" Margin="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -182,7 +182,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Column 0 -->
-            <Border Grid.Column="0" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
+            <Border Grid.Column="0" BorderBrush="#DDD" BorderThickness="1" Margin="3" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -198,7 +198,7 @@
             </Border>
 
             <!-- Column 1 -->
-            <Border Grid.Column="1" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
+            <Border Grid.Column="1" BorderBrush="#DDD" BorderThickness="1" Margin="3" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -214,7 +214,7 @@
             </Border>
 
             <!-- Column 2 -->
-            <Border Grid.Column="2" BorderBrush="#DDD" BorderThickness="1" Margin="6" CornerRadius="6">
+            <Border Grid.Column="2" BorderBrush="#DDD" BorderThickness="1" Margin="3" CornerRadius="6">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
